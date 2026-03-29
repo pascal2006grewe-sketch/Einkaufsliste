@@ -11,10 +11,19 @@
             max-width: 500px;
             margin: 20px auto;
         }
-        input {
-            width: 100%;
-            padding: 8px;
+        .input-row {
+            display: flex;
+            gap: 10px;
             margin: 5px 0;
+        }
+        .artikel-input {
+            flex: 1;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .anzahl-input {
+            width: 80px;
+            padding: 8px;
             box-sizing: border-box;
         }
     </style>
@@ -24,8 +33,11 @@
     <h1>Einkaufsliste</h1>
     <!-- Container für alle Input-Felder, in dem die Artikel eingegeben werden -->
     <div id="inputContainer">
-        <!-- Erstes Input-Feld zum Eingeben von Artikeln -->
-        <input type="text" placeholder="Artikel" class="artikel-input">
+        <!-- Erste Reihe mit Artikel und Anzahl -->
+        <div class="input-row">
+            <input type="text" placeholder="Artikel" class="artikel-input">
+            <input type="number" placeholder="Anzahl" class="anzahl-input" min="1" value="1">
+        </div>
     </div>
 
     <script>
@@ -36,20 +48,36 @@
         container.addEventListener('keypress', function(event) {
             // Prüfe, ob die gedrückte Taste "Enter" ist
             if (event.key === 'Enter') {
-                // Verhindert Zeilenumbruch im Input)
+                // Verhindert Zeilenumbruch im Input
                 event.preventDefault();
                 
-                // Erstelle ein neues Input-Element, wenn Eingabe = Enter
-                const newInput = document.createElement('input');
-                newInput.type = 'text';  // Typ: Textfeld
-                newInput.placeholder = 'Artikel';  // Platzhalter-Text
-                newInput.className = 'artikel-input';  // CSS-Klasse hinzufügen
+                // Erstelle eine neue Reihe (Zeile) für Artikel + Anzahl
+                const newRow = document.createElement('div');
+                newRow.className = 'input-row';
                 
-                // Füge das neue Input-Feld zum Container hinzu
-                container.appendChild(newInput);
+                // Erstelle das Artikel-Input-Feld
+                const artikelInput = document.createElement('input');
+                artikelInput.type = 'text';
+                artikelInput.placeholder = 'Artikel';
+                artikelInput.className = 'artikel-input';
                 
-                // Cursor springt ins nächste Input Feld
-                newInput.focus();
+                // Erstelle das Anzahl-Input-Feld
+                const anzahlInput = document.createElement('input');
+                anzahlInput.type = 'number';
+                anzahlInput.placeholder = 'Anzahl';
+                anzahlInput.className = 'anzahl-input';
+                anzahlInput.min = '1';
+                anzahlInput.value = '1';
+                
+                // Füge beide Felder zur neuen Reihe hinzu
+                newRow.appendChild(artikelInput);
+                newRow.appendChild(anzahlInput);
+                
+                // Füge die neue Reihe zum Container hinzu
+                container.appendChild(newRow);
+                
+                // Cursor springt ins nächste Artikel-Input Feld
+                artikelInput.focus();
             }
         });
     </script>
